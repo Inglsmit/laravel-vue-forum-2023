@@ -20,7 +20,7 @@ class SectionController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Section/Create');
     }
 
     /**
@@ -28,7 +28,9 @@ class SectionController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        Section::firstOrCreate($data);
+        return redirect()->route('sections.index');
     }
 
     /**

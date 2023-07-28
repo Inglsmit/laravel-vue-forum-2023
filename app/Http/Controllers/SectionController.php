@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Section;
+use App\Http\Requests\Section\StoreRequest;
 use Illuminate\Http\Request;
 
 class SectionController extends Controller

@@ -32,6 +32,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 
     Route::resource('sections', \App\Http\Controllers\SectionController::class);
+    Route::get('sections/{section}/branches', [\App\Http\Controllers\SectionController::class, 'branchIndex']);
     Route::resource('branches', \App\Http\Controllers\BranchController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

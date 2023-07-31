@@ -9,6 +9,9 @@
                     <option value="null" selected disabled>Choose section</option>
                     <option v-for="section in sections" :value="section.id">{{ section.title }}</option>
                 </select>
+                <div v-if="this.$page.props.errors.section_id" class="text-sm text-red-600">
+                    {{ this.$page.props.errors.section_id }}
+                </div>
             </div>
             <div class="mb-4" v-if="branches.length > 0">
                 <select v-model="parent_id">
@@ -18,6 +21,9 @@
             </div>
             <div>
                 <input type="text" v-model="title" class="border-gray-300 p-2 w-1/2 mb-4">
+                <div v-if="this.$page.props.errors.title" class="text-sm text-red-600">
+                    {{ this.$page.props.errors.title }}
+                </div>
             </div>
             <div>
                 <a href="#" @click.prevent="store" class="block w-1/4 py-2 bg-sky-500 border border-sky-600 text-center">Add</a>
@@ -30,7 +36,7 @@
 import MainLayout from "@/Layouts/MainLayout.vue";
 import {Link} from "@inertiajs/vue3";
 export default {
-    name: "create",
+    name: "Create",
 
     props: [
         'sections'

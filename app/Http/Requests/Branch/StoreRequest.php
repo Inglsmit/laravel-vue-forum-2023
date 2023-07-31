@@ -27,4 +27,13 @@ class StoreRequest extends FormRequest
             'parent_id' => 'nullable|integer|exists:branches,id',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Field should be filled',
+            'section_id.required' => 'Field should be filled',
+
+        ];
+    }
 }

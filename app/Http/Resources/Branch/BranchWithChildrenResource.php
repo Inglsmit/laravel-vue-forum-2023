@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Section;
+namespace App\Http\Resources\Branch;
 
-use App\Http\Resources\Branch\BranchResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SectionWithBranchesResource extends JsonResource
+class BranchWithChildrenResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +17,9 @@ class SectionWithBranchesResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'branches' => BranchResource::collection($this->parentBranches)->resolve(),
+            'section_id' => $this->section_id,
+            'parent_id' => $this->parent_id,
+            'children' => BranchResource::collection($this->children)->resolve(),
         ];
     }
 }

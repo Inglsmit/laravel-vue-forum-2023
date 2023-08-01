@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('sections/{section}/branches', [\App\Http\Controllers\SectionController::class, 'branchIndex']);
     Route::get('sections/{section}/branches_except/{branch}', [\App\Http\Controllers\SectionController::class, 'branchIndexExcept']);
     Route::resource('branches', \App\Http\Controllers\BranchController::class);
+    Route::get('branches/{branch}/themes/create', [\App\Http\Controllers\BranchController::class, 'themeCreate'])
+        ->name('branches.themes.create');
+    Route::resource('themes', \App\Http\Controllers\ThemeController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

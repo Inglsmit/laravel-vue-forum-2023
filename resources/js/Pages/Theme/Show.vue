@@ -8,6 +8,26 @@
                 {{ theme.description }}
             </p>
         </div>
+        <div v-if="theme.messages.length">
+            <div v-for="message in theme.messages" class="flex bg-white border border-gray-300">
+                <div class="p-4 w-1/6 border-r border-gray-300">
+                    <div class="w-16 h-16 bg-gray-300 rounded-full mx-auto"></div>
+                    <div>
+                        <h3 class="text-center">
+                            {{ message.user.name }}
+                        </h3>
+                    </div>
+                </div>
+                <div class="p-4 w-5/6">
+                    <div>
+                        <p class="text-sm">{{ message.time }}</p>
+                    </div>
+                    <div>
+                        <p v-html="message.content"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="bg-white border-gray-300 border p-4">
             <div class="mb-4">
                 <h3 class="text-xl mr-4">Add message</h3>

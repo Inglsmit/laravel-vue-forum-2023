@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Theme\StoreRequest;
 use App\Http\Requests\Theme\UpdateRequest;
 use App\Http\Resources\Theme\ThemeResource;
+use App\Http\Resources\Theme\ThemeWithMessagesResource;
 use App\Models\Theme;
 use Illuminate\Http\Request;
 
@@ -42,7 +43,7 @@ class ThemeController extends Controller
      */
     public function show(Theme $theme)
     {
-        $theme = ThemeResource::make($theme)->resolve();
+        $theme = ThemeWithMessagesResource::make($theme)->resolve();
         return inertia('Theme/Show', compact('theme'));
     }
 

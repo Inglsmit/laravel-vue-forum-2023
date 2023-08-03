@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('branches/{branch}/themes/create', [\App\Http\Controllers\BranchController::class, 'themeCreate'])
         ->name('branches.themes.create');
     Route::resource('themes', \App\Http\Controllers\ThemeController::class);
+    Route::resource('messages', \App\Http\Controllers\MessageController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

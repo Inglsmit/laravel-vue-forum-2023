@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('themes', \App\Http\Controllers\ThemeController::class);
     Route::resource('messages', \App\Http\Controllers\MessageController::class);
 
+
+    Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
+    Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

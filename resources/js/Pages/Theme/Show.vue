@@ -30,6 +30,12 @@
                     <div class="flex items-center justify-end">
 
                         <div class="mr-4">
+                            <a href="#" @click.prevent="answer(message)" class="text-sm text-white rounded-lg bg-indigo-600 border border-indigo-700 inline-block p-2 text-center">
+                                Reply
+                            </a>
+                        </div>
+
+                        <div class="mr-4">
                             <a href="#" @click.prevent="quote(message.content)" class="text-sm text-white rounded-lg bg-sky-600 border border-sky-700 inline-block p-2 text-center">
                                 Quote
                             </a>
@@ -107,6 +113,13 @@ export default {
             const editor = this.$refs.editor
             const oldText = editor.innerHTML
             editor.innerHTML = `${oldText}<br><blockquote> ${content} </blockquote><br>`
+        },
+
+        answer(message){
+            const title = `<div class="w-full bg-gray-200 border border-gray-300 p-2">Reply to ${message.user.name} ${message.time}</div>`
+            const editor = this.$refs.editor
+            const oldText = editor.innerHTML
+            editor.innerHTML = `${oldText} ${title}<blockquote> ${message.content} </blockquote><br>`
         },
     },
 

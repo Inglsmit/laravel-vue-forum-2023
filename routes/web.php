@@ -39,7 +39,8 @@ Route::middleware('auth')->group(function () {
         ->name('branches.themes.create');
     Route::resource('themes', \App\Http\Controllers\ThemeController::class);
     Route::resource('messages', \App\Http\Controllers\MessageController::class);
-
+    Route::post('messages/{message}/likes', [\App\Http\Controllers\MessageController::class, 'togglelike'])
+        ->name('messages.likes.toggle');
 
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
     Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');

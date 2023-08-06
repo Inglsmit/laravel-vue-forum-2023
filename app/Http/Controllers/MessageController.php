@@ -34,7 +34,7 @@ class MessageController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
-        $message =Message::create($data);
+        $message = Message::create($data);
 
         return MessageResource::make($message)->resolve();
     }
@@ -69,5 +69,10 @@ class MessageController extends Controller
     public function destroy(Message $message)
     {
         //
+    }
+
+    public function toggleLike(Message $message)
+    {
+        $message->likedUsers()->toggle(auth()->id());
     }
 }

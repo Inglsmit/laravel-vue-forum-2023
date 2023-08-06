@@ -116,7 +116,7 @@ export default {
         },
 
         answer(message){
-            const title = `<div class="w-full bg-gray-200 border border-gray-300 p-2">Reply to ${message.user.name} ${message.time}</div>`
+            const title = `<div class="w-full bg-gray-200 border border-gray-300 p-2">Reply to @${message.user.id} ${message.user.name} ${message.time}</div>`
             const editor = this.$refs.editor
             const oldText = editor.innerHTML
             editor.innerHTML = `${oldText} ${title}<blockquote> ${message.content} </blockquote><br>`

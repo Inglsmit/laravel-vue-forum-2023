@@ -28,6 +28,13 @@
                         <p v-html="message.content"></p>
                     </div>
                     <div class="flex items-center justify-end">
+
+                        <div class="mr-4">
+                            <a href="#" @click.prevent="quote(message.content)" class="text-sm text-white rounded-lg bg-sky-600 border border-sky-700 inline-block p-2 text-center">
+                                Quote
+                            </a>
+                        </div>
+
                         <div class="flex items-center">
                             <span class="mr-2">
                                 {{ message.likes }}
@@ -76,11 +83,11 @@ export default {
     methods: {
         store(){
             axios.post('/messages', {
-                content: this.$refs.editor.innerText,
+                content: this.$refs.editor.innerHTML,
                 theme_id: this.theme.id,
             }).then( res => {
-                console.log(res);
-                this.$refs.editor.innerText = ''
+                this.$refs.editor.innerHTML = ''
+                this.theme.messages.push(res.data)
             })
         },
 
@@ -90,13 +97,30 @@ export default {
                     message.is_liked ? message.likes-- : message.likes++
                     message.is_liked = !message.is_liked
                 })
-        }
+        },
+
+        quote(content){
+            if(window.getSelection().toString()) {
+                content = window.getSelection().toString()
+            }
+
+            const editor = this.$refs.editor
+            const oldText = editor.innerHTML
+            editor.innerHTML = `${oldText}<br><blockquote> ${content} </blockquote><br>`
+        },
     },
 
     layout: MainLayout
 }
 </script>
 
-<style scoped>
+<style>
+    blockquote{
+        display: block;
+        padding: 4px;
+        padding-left: 6px;
+        border-left: 4px solid #a0aec0;
+        background-color: #f6f6f6;
 
+    }
 </style>

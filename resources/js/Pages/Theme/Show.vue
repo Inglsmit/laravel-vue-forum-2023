@@ -25,7 +25,7 @@
                         <p class="text-sm">{{ message.time }}</p>
                     </div>
                     <div>
-                        <div v-if="message.is_not_solved_complaint">
+                        <div class="mb-4" v-if="message.is_not_solved_complaint">
                             <p class="w-full bg-red-50 p-2">Your complain on review</p>
                         </div>
                         <div class="mb-4">
@@ -146,7 +146,7 @@ export default {
             axios.post(`/messages/${message.id}/complaints`, {
                 body: message.body,
                 theme_id: message.theme_id
-            }).then( () => {
+            }).then( res => {
                 message.is_not_solved_complaint = res.data.is_not_solved_complaint
             })
         },

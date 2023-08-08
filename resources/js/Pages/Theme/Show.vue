@@ -27,7 +27,13 @@
                     <div class="mb-4">
                         <p v-html="message.content"></p>
                     </div>
-                    <div class="flex items-center justify-end">
+                    <div class="mb-4 flex items-center justify-end w-full">
+
+                        <div class="mr-4">
+                            <a href="#" @click.prevent="openComplaint(message)" class="text-sm text-white rounded-lg border border-red-500 inline-block p-2 text-center text-red-500">
+                                Complain
+                            </a>
+                        </div>
 
                         <div class="mr-4">
                             <a href="#" @click.prevent="answer(message)" class="text-sm text-white rounded-lg bg-indigo-600 border border-indigo-700 inline-block p-2 text-center">
@@ -52,6 +58,10 @@
                                 </svg>
                             </a>
                         </div>
+                    </div>
+                    <div class="flex items-center" v-if="message.is_complaint">
+                        <input v-model="message.body" class="w-5/6 p-2 rounded-lg rounded-r-none border border-gray-300" placeholder="Your complain" type="text" name="" id="" />
+                        <a @click.prevent="complaint(message)" href="#" class="block p-2 rounded-lg rounded-l-none w-1/6 text-center bg-red-800 border-gray-300 text-white">Send</a>
                     </div>
                 </div>
             </div>
@@ -120,6 +130,20 @@ export default {
             const editor = this.$refs.editor
             const oldText = editor.innerHTML
             editor.innerHTML = `${oldText} ${title}<blockquote> ${message.content} </blockquote><br>`
+        },
+
+        openComplaint(message){
+            message.body = ''
+            message.is_complaint = !message.is_complaint
+        },
+
+        complaint(message){
+            axios.post(`/messages/${message.id}/complaints`, {
+                body: message.body,
+                theme_id: message.theme_id
+            }).then( () => {
+                message.body = ''
+            })
         },
     },
 

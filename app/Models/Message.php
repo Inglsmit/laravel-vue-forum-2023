@@ -18,6 +18,14 @@ class Message extends Model
         return $this->likedUsers()->where('user_id', auth()->id())->exists();
     }
 
+    public function getIsNotSolvedComplaintAttribute()
+    {
+        return $this->complaintedUsers()
+            ->where('user_id', auth()->id())
+            ->where('is_solved', false)
+            ->exists();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

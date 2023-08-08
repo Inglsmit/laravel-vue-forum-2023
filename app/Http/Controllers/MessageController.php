@@ -91,5 +91,7 @@ class MessageController extends Controller
     {
         $data = $request->validated();
         $message->complaintedUsers()->attach(auth()->id(), $data);
+
+        return MessageResource::make($message)->resolve();
     }
 }

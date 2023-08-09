@@ -76,6 +76,14 @@
                 <h3 class="text-xl mr-4">Add message</h3>
             </div>
             <div class="mb-4">
+                <div class="bg-gray-50 border border-gray-100 p-2 w-full">
+                    <a href="#" @click.prevent="this.$refs.image.click()" class="block w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                        </svg>
+                    </a>
+                    <input @change="storeImage" hidden ref="image" type="file" />
+                </div>
                 <div class="w-full border-gray-300 border p-2" ref="editor" contenteditable="true"></div>
             </div>
             <div>
@@ -149,6 +157,20 @@ export default {
             }).then( res => {
                 message.is_not_solved_complaint = res.data.is_not_solved_complaint
             })
+        },
+
+        storeImage(e){
+            const file = e.target.files[0]
+            const formData = new FormData()
+            formData.append('image', file)
+
+            axios.post('/images', formData)
+                .then( res => {
+                    const image = `<img src="${res.data.url}" alt="" />`
+                    const editor = this.$refs.editor
+                    const oldText = editor.innerHTML
+                    editor.innerHTML = `${oldText}<br> ${image} <br>`
+                })
         },
     },
 

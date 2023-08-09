@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('path');
-            $table->foreignId('message_id')->nullable();
+            $table->foreignId('message_id')->nullable()->index()->constrained('messages');
+            $table->foreignId('user_id')->index()->constrained('users');
             $table->timestamps();
         });
     }

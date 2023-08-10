@@ -47,7 +47,7 @@
 import MainLayout from "@/Layouts/MainLayout.vue";
 import {Link} from "@inertiajs/vue3";
 export default {
-    name: "index",
+    name: "Index",
 
     props: [
         'sections'

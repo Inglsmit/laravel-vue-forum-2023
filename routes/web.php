@@ -48,6 +48,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/images', [\App\Http\Controllers\ImageController::class, 'store']);
 
+    Route::get('/admin', [\App\Http\Controllers\Admin\MainController::class, 'index'])
+    ->name('admin.main.index');
+
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
     Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

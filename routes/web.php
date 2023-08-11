@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin', [\App\Http\Controllers\Admin\MainController::class, 'index'])
     ->name('admin.main.index');
+    Route::get('/admin/complaints', [\App\Http\Controllers\Admin\ComplaintController::class, 'index'])
+        ->name('admin.complaints.index');
 
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
     Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');

@@ -9,7 +9,7 @@
             </p>
         </div>
         <div v-if="theme.messages.length">
-            <div v-for="message in theme.messages" class="flex bg-white border border-gray-300">
+            <div v-for="message in theme.messages" :id="message.id" class="flex bg-white border border-gray-300">
                 <div class="p-4 w-1/6 border-r border-gray-300">
                     <div class="w-16 h-16 overflow-hidden bg-gray-300 rounded-full mx-auto">
                         <img class="w-24 h-24" v-if="message.user.avatar_url" :src="message.user.avatar_url" alt="">

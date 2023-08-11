@@ -54,6 +54,15 @@ export default {
         Link
     },
 
+    methods: {
+        update(complaint){
+            axios.patch(`/admin/complaints/${complaint.id}`)
+                .then( res => {
+                    complaint.is_solved = res.data.is_solved
+                })
+        }
+    },
+
     layout: AdminLayout
 }
 </script>

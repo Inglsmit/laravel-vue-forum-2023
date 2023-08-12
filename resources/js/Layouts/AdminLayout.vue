@@ -17,6 +17,9 @@
                     <div>
                         <Link class="block p-4 w-full border-b border-gray-300" :href="route('admin.complaints.index')">Complaints</Link>
                     </div>
+                    <div>
+                        <Link class="block p-4 w-full border-b border-gray-300" :href="route('admin.roles.index')">Roles</Link>
+                    </div>
                 </div>
             </div>
             <div class="w-3/4 bg-white p-4 border border-gray-300">

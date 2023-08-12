@@ -61,6 +61,10 @@ Route::middleware('auth')->group(function () {
         ->name('admin.roles.create');
     Route::post('/admin/roles', [\App\Http\Controllers\Admin\RoleController::class, 'store'])
         ->name('admin.roles.store');
+    Route::get('/admin/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])
+        ->name('admin.users.index');
+    Route::post('/admin/users/{user}/roles', [\App\Http\Controllers\Admin\UserController::class, 'toggleRole'])
+        ->name('admin.users.roles');
 
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
     Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');

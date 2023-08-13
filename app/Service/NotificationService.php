@@ -6,11 +6,12 @@ use App\Models\Notification;
 
 class NotificationService
 {
-    public static function store($message)
+    public static function store($message, $id = null, $title)
     {
+        $id = $id ? $id : $message->user_id;
         Notification::create([
-            'title' => 'You have got like',
-            'user_id' => $message->user_id,
+            'title' => $title,
+            'user_id' => $id,
             'url' => route('themes.show', $message->theme_id) . '#' . $message->id,
         ]);
     }

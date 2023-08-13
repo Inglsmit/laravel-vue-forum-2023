@@ -46,7 +46,7 @@ class MessageController extends Controller
             {
                 return Str::of($id)->replaceMatches('/@/', '')->value();
             })->filter(function ($id){
-                return User::where('id', $id)->exist();
+                return User::where('id', $id)->exists();
         });
 
         $imgIds = Str::of($data['content'])->matchAll('/img_id=[\d]+/')->unique()->transform(
@@ -74,6 +74,10 @@ class MessageController extends Controller
             ->whereNull('message_id')->delete();
 
         $message->answeredUsers()->attach($ids);
+
+        $ids->each(function ($id) use ($message){
+            NotificationService::store($message, $id, 'You have got answer');
+        });
 
         $message->loadCount('likedUsers');
 
@@ -116,7 +120,7 @@ class MessageController extends Controller
     {
         $res = $message->likedUsers()->toggle(auth()->id());
         if($res['attached']){
-            NotificationService::store($message);
+            NotificationService::store($message, null, 'You have got like');
         }
     }
 
@@ -124,6 +128,8 @@ class MessageController extends Controller
     {
         $data = $request->validated();
         $message->complaintedUsers()->attach(auth()->id(), $data);
+
+        NotificationService::store($message, null, 'You have got complain on message');
 
         return MessageResource::make($message)->resolve();
     }

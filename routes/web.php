@@ -66,6 +66,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/users/{user}/roles', [\App\Http\Controllers\Admin\UserController::class, 'toggleRole'])
         ->name('admin.users.roles');
 
+    Route::get('/test', function (){
+        event(new \App\Events\TestEvent());
+    });
+
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
     Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

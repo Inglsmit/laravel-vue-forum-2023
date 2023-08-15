@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
 
 
 //    Route::get('/test', function (){
-//        event(new \App\Events\TestEvent());
+//        event(new \App\Events\StoreNotificationEvent());
 //    });
 
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');

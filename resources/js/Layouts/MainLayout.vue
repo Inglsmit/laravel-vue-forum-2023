@@ -37,9 +37,10 @@ export default {
     name: "MainLayout",
 
     created(){
-      window.Echo.channel('test-name')
-          .listen('.test', res => {
-              console.log(res);
+      window.Echo.private(`user.notifications.${this.$page.props.auth.user.id}`)
+          .listen('.user_notifications', res => {
+              this.$page.props.auth.notifications.push(res.data)
+              this.$page.props.auth.notification_count++
           })
     },
 

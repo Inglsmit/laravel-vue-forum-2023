@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\Notification\NotificationResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,16 +11,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestEvent implements ShouldBroadcast
+class StoreNotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    private $notofication;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct($notification)
     {
         //
+        $this->notification = $notification;
     }
 
     /**
@@ -30,19 +34,19 @@ class TestEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('test-name'),
+            new PrivateChannel('users.notifications.' . $this->notofication->user_id),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'test';
+        return 'user_notifications';
     }
 
     public function broadcastWith()
     {
         return [
-            'message' => 'Hello!'
+            'data' => NotificationResource::make($this->notification)->resolve()
         ];
     }
 }

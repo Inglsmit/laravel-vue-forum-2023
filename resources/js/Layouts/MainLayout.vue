@@ -7,12 +7,20 @@
                     <Link :href="route('users.personal')" class="mr-4">Personal</Link>
                     <Link :href="route('admin.main.index')">Admin</Link>
                 </div>
-                <div>
-                    <div>
-                        <a href="" class="flex items-center">
-                            <p class="mr-2">Notification</p>
-                            <span>0</span>
+                <div class="w-1/4 text-right">
+                    <div class="relative">
+                        <a @click.prevent="openNotification" href="#">
+                            <span class="mr-2">Notifications</span>
+                            <span>{{ this.$page.props.auth.notification_count }}</span>
                         </a>
+                        <div v-if="this.$page.props.auth.notifications.length && isOpen" class="absolute w-full">
+                            <div v-for="notification in this.$page.props.auth.notifications"
+                                 class="p-4 border border-b border-gray-300 bg-white text-left"
+                            >
+                                <p>{{ notification.title }}</p>
+                                <Link class="text-sky-600" :href="notification.url">Open</Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,7 +45,26 @@ export default {
 
     components: {
         Link
-    }
+    },
+
+    data() {
+        return {
+            isOpen: false
+        }
+    },
+
+    methods: {
+        openNotification() {
+            this.isOpen = !this.isOpen
+            let ids = this.$page.props.auth.notifications.map(notification =>  notification.id)
+
+            axios.patch('/notifications/update_collection', {
+                ids: ids
+            }).then(res => {
+                this.$page.props.auth.notification_count = res.data.count
+            })
+        }
+    },
 }
 </script>
 

@@ -3,9 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\Notification\NotificationResource;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -34,7 +32,7 @@ class StoreNotificationEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('users.notifications.' . $this->notofication->user_id),
+            new PrivateChannel('users.notifications.'.$this->notofication->user_id),
         ];
     }
 
@@ -46,7 +44,7 @@ class StoreNotificationEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => NotificationResource::make($this->notification)->resolve()
+            'data' => NotificationResource::make($this->notification)->resolve(),
         ];
     }
 }

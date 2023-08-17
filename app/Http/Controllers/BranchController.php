@@ -9,7 +9,6 @@ use App\Http\Resources\Branch\BranchWithChildrenResource;
 use App\Http\Resources\Section\SectionResource;
 use App\Models\Branch;
 use App\Models\Section;
-use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
@@ -28,6 +27,7 @@ class BranchController extends Controller
     {
         $sections = Section::all();
         $sections = SectionResource::collection($sections)->resolve();
+
         return inertia('Branch/Create', compact('sections'));
     }
 
@@ -38,6 +38,7 @@ class BranchController extends Controller
     {
         $data = $request->validated();
         Branch::firstOrCreate($data);
+
         return redirect()->route('sections.index');
     }
 
@@ -47,6 +48,7 @@ class BranchController extends Controller
     public function show(Branch $branch)
     {
         $branch = BranchWithChildrenResource::make($branch)->resolve();
+
         return inertia('Branch/Show', compact('branch'));
     }
 
@@ -86,12 +88,14 @@ class BranchController extends Controller
         $this->authorize('delete', $branch);
 
         $branch->delete();
+
         return redirect()->route('sections.index');
     }
 
     public function themeCreate(Branch $branch)
     {
         $branch = BranchResource::make($branch)->resolve();
+
         return inertia('Theme/Create', compact('branch'));
     }
 }

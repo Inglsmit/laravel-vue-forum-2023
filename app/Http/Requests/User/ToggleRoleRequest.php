@@ -22,7 +22,7 @@ class ToggleRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_id' => 'required|integer|exists:roles,id'
+            'role_id' => 'required|integer|exists:roles,id',
         ];
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Image\StoreRequest;
 use App\Http\Resources\Image\ImageResource;
 use App\Models\Image;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller

@@ -7,13 +7,10 @@ use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
 use App\Models\Image;
 use App\Models\Message;
-use App\Models\Notification;
 use App\Models\User;
 use App\Service\NotificationService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PhpParser\Node\Stmt\Return_;
 
 class MessageController extends Controller
 {
@@ -42,16 +39,14 @@ class MessageController extends Controller
         $data['user_id'] = auth()->id();
 
         $ids = Str::of($data['content'])->matchAll('/@[\d]+/')->unique()->transform(
-            function ($id)
-            {
+            function ($id) {
                 return Str::of($id)->replaceMatches('/@/', '')->value();
-            })->filter(function ($id){
+            })->filter(function ($id) {
                 return User::where('id', $id)->exists();
-        });
+            });
 
         $imgIds = Str::of($data['content'])->matchAll('/img_id=[\d]+/')->unique()->transform(
-            function ($id)
-            {
+            function ($id) {
                 return Str::of($id)->replaceMatches('/img_id=/', '')->value();
             }
         );
@@ -59,14 +54,14 @@ class MessageController extends Controller
         $message = Message::create($data);
 
         Image::whereIn('id', $imgIds)->update([
-            'message_id' => $message->id
+            'message_id' => $message->id,
         ]);
 
         Image::where('user_id', auth()->id())
             ->whereNull('message_id')
             ->get()
             ->pluck('path')
-            ->each(function ($path){
+            ->each(function ($path) {
                 Storage::disk('public')->delete($path);
             });
 
@@ -75,7 +70,7 @@ class MessageController extends Controller
 
         $message->answeredUsers()->attach($ids);
 
-        $ids->each(function ($id) use ($message){
+        $ids->each(function ($id) use ($message) {
             NotificationService::store($message, $id, 'You have got answer');
         });
 
@@ -119,7 +114,7 @@ class MessageController extends Controller
     public function toggleLike(Message $message)
     {
         $res = $message->likedUsers()->toggle(auth()->id());
-        if($res['attached']){
+        if ($res['attached']) {
             NotificationService::store($message, null, 'You have got like');
         }
     }

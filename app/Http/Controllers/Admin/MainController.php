@@ -7,7 +7,6 @@ use App\Models\Branch;
 use App\Models\Message;
 use App\Models\Theme;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
@@ -20,15 +19,15 @@ class MainController extends Controller
             ],
             [
                 'title' => 'Themes',
-                'count' => Theme::count()
+                'count' => Theme::count(),
             ],
             [
                 'title' => 'Messages',
-                'count' => Message::count()
+                'count' => Message::count(),
             ],
             [
                 'title' => 'Users',
-                'count' => User::count()
+                'count' => User::count(),
             ],
         ];
 

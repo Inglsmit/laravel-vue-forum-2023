@@ -13,7 +13,8 @@ class Theme extends Model
 
     protected $guarded = false;
 
-    public function messages(){
+    public function messages()
+    {
         return $this->hasMany(Message::class, 'theme_id', 'id');
     }
 }

@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/images', [\App\Http\Controllers\ImageController::class, 'store']);
 
     Route::get('/admin', [\App\Http\Controllers\Admin\MainController::class, 'index'])
-    ->name('admin.main.index');
+        ->name('admin.main.index');
     Route::get('/admin/complaints', [\App\Http\Controllers\Admin\ComplaintController::class, 'index'])
         ->name('admin.complaints.index');
     Route::patch('/admin/complaints/{complaint}', [\App\Http\Controllers\Admin\ComplaintController::class, 'update'])
@@ -68,10 +68,9 @@ Route::middleware('auth')->group(function () {
 
     Route::patch('/notifications/update_collection', [\App\Http\Controllers\NotificationController::class, 'updateCollection']);
 
-
-//    Route::get('/test', function (){
-//        event(new \App\Events\StoreNotificationEvent());
-//    });
+    //    Route::get('/test', function (){
+    //        event(new \App\Events\StoreNotificationEvent());
+    //    });
 
     Route::get('users/personal', [\App\Http\Controllers\UserController::class, 'personal'])->name('users.personal');
     Route::patch('users/personal', [\App\Http\Controllers\UserController::class, 'update'])->name('users.personal');

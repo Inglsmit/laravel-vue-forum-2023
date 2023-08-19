@@ -13,14 +13,13 @@ class StoreNotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $notofication;
+    private $notification;
 
     /**
      * Create a new event instance.
      */
     public function __construct($notification)
     {
-        //
         $this->notification = $notification;
     }
 
@@ -32,7 +31,7 @@ class StoreNotificationEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.notifications.'.$this->notofication->user_id),
+            new PrivateChannel('user.notifications.'.$this->notification->user_id),
         ];
     }
 

@@ -7,7 +7,7 @@ use App\Models\Notification;
 
 class NotificationService
 {
-    public static function store($message, $id, $title)
+    public static function store($message, $id = null, $title)
     {
         $user_id = $id ? $id : $message->user_id;
 
@@ -17,8 +17,6 @@ class NotificationService
             'url' => route('themes.show', $message->theme_id).'#'.$message->id,
         ]);
 
-        // TODO: fix bag when second click on the same like happened
-        // notification doesn't appeared - 500 error
         event(new StoreNotificationEvent($notification));
     }
 }

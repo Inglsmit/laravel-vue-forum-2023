@@ -2,26 +2,28 @@
 
 namespace App\Events;
 
+use App\Http\Resources\Message\MessageResource;
 use App\Http\Resources\Notification\NotificationResource;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StoreNotificationEvent implements ShouldBroadcast
+class StoreLikeEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $notofication;
+    private $message;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($notification)
+    public function __construct($message)
     {
         //
-        $this->notification = $notification;
+        $this->message = $message;
     }
 
     /**
@@ -32,19 +34,19 @@ class StoreNotificationEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.notifications.'.$this->notofication->user_id),
+            new Channel('themes.like.'.$this->message->theme_id),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'user_notifications';
+        return 'store_like';
     }
 
     public function broadcastWith()
     {
         return [
-            'data' => NotificationResource::make($this->notification)->resolve(),
+            'data' => MessageResource::make($this->message->loadCount('likedUsers'))->resolve(),
         ];
     }
 }

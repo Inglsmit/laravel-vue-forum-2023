@@ -37,7 +37,7 @@ export default {
     name: "MainLayout",
 
     created(){
-      window.Echo.private(`user.notifications.${this.$page.props.auth.user.id}`)
+        window.Echo.private(`user.notifications.${this.$page.props.auth.user.id}`)
           .listen('.user_notifications', res => {
               this.$page.props.auth.notifications.push(res.data)
               this.$page.props.auth.notification_count++

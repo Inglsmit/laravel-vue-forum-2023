@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StoreLikeEvent;
 use App\Events\StoreMessageEvent;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Requests\Message\UpdateRequest;
@@ -120,6 +121,8 @@ class MessageController extends Controller
         if ($res['attached']) {
             NotificationService::store($message, null, 'You have got like');
         }
+
+        broadcast(new StoreLikeEvent($message))->toOthers();
     }
 
     public function storeComplaint(\App\Http\Requests\Complaint\StoreRequest $request, Message $message)

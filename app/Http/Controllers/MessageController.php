@@ -40,37 +40,19 @@ class MessageController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->id();
 
-        $ids = Str::of($data['content'])->matchAll('/@[\d]+/')->unique()->transform(
-            function ($id) {
-                return Str::of($id)->replaceMatches('/@/', '')->value();
-            })->filter(function ($id) {
-                return User::where('id', $id)->exists();
-            });
+        $ids = User::getCleanedUserId($data);
 
-        $imgIds = Str::of($data['content'])->matchAll('/img_id=[\d]+/')->unique()->transform(
-            function ($id) {
-                return Str::of($id)->replaceMatches('/img_id=/', '')->value();
-            }
-        );
+        $imgIds = getId($data, '/img_id=[\d]+/', '/img_id=/');
 
         $message = Message::create($data);
 
         broadcast(new StoreMessageEvent($message))->toOthers();
 
-        Image::whereIn('id', $imgIds)->update([
-            'message_id' => $message->id,
-        ]);
+        Image::updateMessageId($imgIds, $message);
 
-        Image::where('user_id', auth()->id())
-            ->whereNull('message_id')
-            ->get()
-            ->pluck('path')
-            ->each(function ($path) {
-                Storage::disk('public')->delete($path);
-            });
+        Image::cleanFromStorage();
 
-        Image::where('user_id', auth()->id())
-            ->whereNull('message_id')->delete();
+        Image::cleanFromTable();
 
         $message->answeredUsers()->attach($ids);
 
